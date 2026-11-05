@@ -16,7 +16,7 @@ describe("filterBooks", () => {
 
   test("returns all books for the genre 'all'", () => {
     expect(filterBooks(initialBooks, { genre: "all", query: "" })).toHaveLength(
-      5
+      5,
     );
   });
 
@@ -56,5 +56,16 @@ describe("removeBook", () => {
 describe("countRead", () => {
   test("counts the read books", () => {
     expect(countRead(initialBooks)).toBe(2);
+  });
+});
+
+describe("averageRating", () => {
+  test("ignores books that are not rated", () => {
+    expect(averageRating(initialBooks)).toBe(4);
+  });
+
+  test("returns null if no book is rated", () => {
+    const books = initialBooks.filter((book) => book.rating === 0);
+    expect(averageRating(books)).toBeNull();
   });
 });

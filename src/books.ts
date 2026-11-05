@@ -6,18 +6,18 @@ type Filter = {
 };
 
 export function filterBooks(books: Book[], { genre, query }: Filter): Book[] {
+  const normalizedQuery = query.trim().toLowerCase();
   return books.filter(
     (book) =>
-      (genre === "all" || book.genre === genre) && book.title.includes(query)
+      (genre === "all" || book.genre === genre) &&
+      book.title.toLowerCase().includes(normalizedQuery)
   );
 }
 
 export function toggleRead(books: Book[], id: string): Book[] {
-  const book = books.find((book) => book.id === id);
-  if (book) {
-    book.isRead = !book.isRead;
-  }
-  return books;
+  return books.map((book) =>
+    book.id === id ? { ...book, isRead: !book.isRead } : book
+  );
 }
 
 export function removeBook(books: Book[], id: string): Book[] {
@@ -30,9 +30,10 @@ export function countRead(books: Book[]): number {
 
 /** Average of all rated books, rounded to one decimal. `null` if no book is rated. */
 export function averageRating(books: Book[]): number | null {
-  if (books.length === 0) {
+  const ratedBooks = books.filter((book) => book.rating > 0);
+  if (ratedBooks.length === 0) {
     return null;
   }
-  const sum = books.reduce((total, book) => total + book.rating, 0);
-  return Math.round((sum / books.length) * 10) / 10;
+  const sum = ratedBooks.reduce((total, book) => total + book.rating, 0);
+  return Math.round((sum / ratedBooks.length) * 10) / 10;
 }
