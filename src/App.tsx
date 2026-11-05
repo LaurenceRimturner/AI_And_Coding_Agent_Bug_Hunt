@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { filterBooks, toggleRead } from "./books";
+import { filterBooks, removeBook, toggleRead } from "./books";
 import BookList from "./components/BookList";
 import Stats from "./components/Stats";
 import { initialBooks } from "./data";
@@ -16,8 +16,8 @@ export default function App() {
     setBooks(toggleRead(books, id));
   }
 
-  function handleRemove(index: number) {
-    setBooks(books.filter((_, i) => i !== index));
+  function handleRemove(id: string) {
+    setBooks(removeBook(books, id));
   }
 
   return (

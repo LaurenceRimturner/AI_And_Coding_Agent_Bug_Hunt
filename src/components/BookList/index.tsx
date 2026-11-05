@@ -4,7 +4,7 @@ import BookCard from "../BookCard";
 type BookListProps = {
   books: Book[];
   onToggleRead: (id: string) => void;
-  onRemove: (index: number) => void;
+  onRemove: (id: string) => void;
 };
 
 export default function BookList({
@@ -18,12 +18,12 @@ export default function BookList({
 
   return (
     <ul className="book-list">
-      {books.map((book, index) => (
+      {books.map((book) => (
         <BookCard
           key={book.id}
           book={book}
           onToggleRead={() => onToggleRead(book.id)}
-          onRemove={() => onRemove(index)}
+          onRemove={() => onRemove(book.id)}
         />
       ))}
     </ul>
